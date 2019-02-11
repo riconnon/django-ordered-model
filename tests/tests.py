@@ -270,6 +270,11 @@ class OrderWithRespectToTests(TestCase):
             ],
         )
 
+    def test_change_respect_to(self):
+        self.q2_a2.question = self.q1_a1.question
+        self.q2_a2.save()
+        self.assertNotIn(self.q2_a2.order, [self.q1_a1.order, self.q1_a2.order])
+
 
 class CustomPKTest(TestCase):
     def setUp(self):
@@ -840,6 +845,11 @@ class OrderWithRespectToRelatedModelFieldTests(TestCase):
             [(i2.pk, 0), (self.u1_g1_i1.pk, 1), (self.u1_g2_i1.pk, 2)],
         )
 
+    def test_change_respect_to_related_field(self):
+        self.u2_g2.user = self.u1
+        self.u2_g2.save()
+        self.u2_g2_i1.refresh_from_db()
+        self.assertNotIn(self.u2_g2_i1.order, [self.u1_g1_i1.order, self.u1_g2_i1.order])
 
 class PolymorpicOrderGenerationTests(TestCase):
     def test_order_of_Baselist(self):
