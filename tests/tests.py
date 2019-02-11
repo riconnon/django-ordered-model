@@ -275,6 +275,11 @@ class OrderWithRespectToTests(TestCase):
             ],
         )
 
+    def test_change_respect_to(self):
+        self.q2_a2.question = self.q1_a1.question
+        self.q2_a2.save()
+        self.assertNotIn(self.q2_a2.order, [self.q1_a1.order, self.q1_a2.order])
+
 
 class CustomPKTest(TestCase):
     def setUp(self):
