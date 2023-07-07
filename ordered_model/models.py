@@ -16,7 +16,7 @@ def get_lookup_value(obj, field):
         return None
 
 
-class OrderedModelQuerySet(models.QuerySet):
+class OrderedModelQuerySetMixin:
     def _get_order_field_name(self):
         return self.model.order_field_name
 
@@ -93,6 +93,10 @@ class OrderedModelQuerySet(models.QuerySet):
                 ).get_next_order()
             setattr(obj, order_field_name, order_with_respect_to_mapping[key])
         return super().bulk_create(objs, *args, **kwargs)
+
+
+class OrderedModelQuerySet(OrderedModelQuerySetMixin, models.QuerySet):
+    pass
 
 
 class OrderedModelManager(models.Manager.from_queryset(OrderedModelQuerySet)):
